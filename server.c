@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <string.h>
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <unistd.h>
@@ -33,7 +34,11 @@ int main() {
     read(new_socket, buffer, 1024);
     printf("--- Request Received ---\n%s\n", buffer);
 
-    // 6. Close the sockets (Good practice!
+    // 6. Send response
+    char *hello = "HTTP/1.1 200 OK\nContent-Type: text/plain\nContent-Length: 12\n\nHello world!";
+    write(new_socket, hello, strlen(hello));
+
+    // 7. Close the sockets (Good practice!
     close(new_socket);
     close(server_fd);
 
